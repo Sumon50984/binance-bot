@@ -3,11 +3,13 @@ A simple telegram bot to use binance stuff quickly thought telegram
 
 # Usages
 Here a list of all commands
+<br>
 To check status:
 /s
+<br>
 To buy and sell:
 /trade {buy/sell} {coin} {amount in usd}
-
+<br>
 To check info:
 /check {price/bal} {coin}
 
