@@ -1,7 +1,7 @@
 # Binance-bot 
-A simple telegram bot to use binance stuff quickly thought telegram
+A simple telegram bot to use binance stuff quickly through telegram
 
-# Usages
+# Usage
 Here a list of all commands
 <br>
 To check status:
