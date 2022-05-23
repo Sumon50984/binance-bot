@@ -4,17 +4,17 @@ import yaml
 
 file = "config.yml"
 with open(file) as file:
-   auth = yaml.load(file, Loader=yaml.FullLoader)
+    auth = yaml.load(file, Loader=yaml.FullLoader)
 
 client = Client(api_key=auth['binance_api'], api_secret=auth['binance_secret'])
 
 def order(pair, amount, type):
-   return client.create_order(
-      symbol = pair,
-      side = type,
-      type = 'MARKET',
-      quantity = amount
-   )
+    return client.create_order(
+        symbol = pair,
+        side = type,
+        type = 'MARKET',
+        quantity = amount
+    )
 
 def price(pair):
     pair = pair.upper()
@@ -33,12 +33,12 @@ def balance(coin):
     bal =  client.get_asset_balance(coin)['free']
     sym = client.get_asset_balance(coin)['asset']
     if coin != "USDT":
-      usd = float(bal)*float(str(price(str(coin + "USDT"))))
-      text = "You have" + " " +  str(bal) + " " + str(coin) + "\n" + str(bal) + " " + str(coin) + " " +  "=" + str(usd) + " " + "USD"
-      return text
+        usd = float(bal)*float(str(price(str(coin + "USDT"))))
+        text = "You have" + " " +  str(bal) + " " + str(coin) + "\n" + str(bal) + " " + str(coin) + " " +  "=" + str(usd) + " " + "USD"
+        return text
     else:
-      t = "You have" + " " + str(bal) + " " + "USDT"
-      return t
+        t = "You have" + " " + str(bal) + " " + "USDT"
+        return t
 
 def m_price(pair):
     pair = pair.upper()

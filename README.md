@@ -27,6 +27,6 @@ python3 bot.py
 Add future trading
 
 # note 
-Just `user_id` users can use  that, you can add matliple user by add maltiple `user_id`
-in config with `,`
+Just `users_id` users can use bot, you can add matliple users by adding maltiple `users_id`
+in config with `,`(coma)
  

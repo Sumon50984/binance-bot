@@ -4,7 +4,7 @@ binance_api: ""
 binance_secret: ""
 
 # Bot
-user_id: ""
+users_id: ""
 bot_token: ""
 api_id: ""
 api_hash: ""

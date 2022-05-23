@@ -1,4 +1,4 @@
-python-binance
-pyyaml
-pyrogram
-tgcrypto
+python-binance==1.0.15
+pyyaml==6.0
+pyrogram==1.4
+tgcrypto==1.2.2
