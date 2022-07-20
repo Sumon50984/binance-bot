@@ -29,8 +29,7 @@ def trade(bot, message) -> str:
             TEXT = "Successfully bought" + " " + str(command[3]) + "$" + " " + str(command[2]).upper()
             message.reply_text(TEXT)
         except BinanceAPIException as e:
-            message.reply_text(e)
-            message.reply_text("failed! to bought")
+            message.reply_text(f"Failed to bought! \n\n Error:  \n {e}")
 
     elif "sell" in value and count_value == 4:
         try:
@@ -38,8 +37,7 @@ def trade(bot, message) -> str:
             TEXT = "Successfully sold" + " " + str(command[3]) + "$" + " " + str(command[2]).upper()
             message.reply_text(TEXT)
         except BinanceAPIException as e:
-            message.reply_text(e)
-            message.reply_text("Failed! to sold")
+            message.reply_text(f"Failed to sold! \n\n error: \n {e}")
 
     else:
         message.reply_text( "Not understand, Enter like [/trade {buy/sell} {coin} {amount in usd}")
@@ -59,8 +57,7 @@ async def lastprice(bot, message) -> str:
             reply = str(command[2]).upper() + " " +  "price is" + " " + str(finaly)
             await message.reply_text(reply)
         except BinanceAPIException as e:
-            await message.reply_text(e)
-            await message.reply_text(text="Failed!")
+            await message.reply_text(text=f"Failed! \n \n error: \n {s}")
 
     elif "bal" in value and count_value == 3:
         try:
@@ -68,7 +65,7 @@ async def lastprice(bot, message) -> str:
             await message.reply_text(text)
         except BinanceAPIException as e:
             await message.reply_text(e)
-            await message.reply_text(text="Failed!")
+            await message.reply_text(text=f"Failed!\n \nerror: \n {e}")
 
 
     else:
