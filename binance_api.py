@@ -13,14 +13,14 @@ def order(pair, amount, type):
         symbol = pair,
         side = type,
         type = 'MARKET',
-        quantity = amount
+        quantity = amount,
     )
 
 def price(pair):
     pair = pair.upper()
     return client.get_ticker(symbol = pair)['lastPrice']
 
-def main(pair, amount, type):
+def byeSell(pair, amount, type):
     pair = str(pair.upper())
     last_price = price(pair)
     convert = float(amount)/float(last_price)
@@ -34,7 +34,7 @@ def balance(coin):
     sym = client.get_asset_balance(coin)['asset']
     if coin != "USDT":
         usd = float(bal)*float(str(price(str(coin + "USDT"))))
-        text = "You have" + " " +  str(bal) + " " + str(coin) + "\n" + str(bal) + " " + str(coin) + " " +  "=" + str(usd) + " " + "USD"
+        text = "You have" + " " +  str(bal) + " " + str(coin) + "\n" + str(bal) + " " + str(coin) + " " +  "=" + str(usd) + " " + "USDT"
         return text
     else:
         t = "You have" + " " + str(bal) + " " + "USDT"

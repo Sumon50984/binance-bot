@@ -1,13 +1,14 @@
 from binance.exceptions import *
 import yaml
 from pyrogram import Client, filters
-from binance_api import main, price, balance
+from binance_api import byeSell, price, balance, client
 
 file = "config.yml"
 with open(file) as file:
     auth = yaml.load(file, Loader=yaml.FullLoader)
 
 bot = Client("my_bot", bot_token= auth['bot_token'], api_id=auth['api_id'],api_hash=auth['api_hash'])
+
 
 def check_users(message) -> bool:
     if str(message.from_user.id) not in str(auth['users_id']):
@@ -25,7 +26,7 @@ def trade(bot, message) -> str:
 
     if "buy" in value and count_value == 4:
         try:
-            main(str(str(command[2]+ "usdt")), float(command[3]), "buy")
+            byeSell(str(str(command[2]+ "usdt")), float(command[3]), "buy")
             TEXT = "Successfully bought" + " " + str(command[3]) + "$" + " " + str(command[2]).upper()
             message.reply_text(TEXT)
         except BinanceAPIException as e:
@@ -33,7 +34,7 @@ def trade(bot, message) -> str:
 
     elif "sell" in value and count_value == 4:
         try:
-            main(str(str(command[2]+ "usdt")), float(command[3]), "sell")
+            byeSell(str(str(command[2]+ "usdt")), float(command[3]), "sell")
             TEXT = "Successfully sold" + " " + str(command[3]) + "$" + " " + str(command[2]).upper()
             message.reply_text(TEXT)
         except BinanceAPIException as e:
@@ -64,7 +65,6 @@ async def lastprice(bot, message) -> str:
             text = balance(str(command[2]))
             await message.reply_text(text)
         except BinanceAPIException as e:
-            await message.reply_text(e)
             await message.reply_text(text=f"Failed!\n \nerror: \n {e}")
 
 
@@ -76,6 +76,44 @@ async def lastprice(bot, message) -> str:
 def status(bot, message) -> str:
     if not check_users(message):
         return
-    message.reply_text("Bot is OK!")
+    message.reply_text("Bot is Ok!")
+    message.reply_text("Pinging Binance")
+    message.reply_text(f"Binance: {client.get_system_status()['msg']}")
+
+@bot.on_message(filters.private & filters.command(["convert", "con"]))
+def convert_price(bot, message):
+    if not check_users(message):
+        return
+    comms = message.command
+    coin1 = price(str(comms[2] + "USDT").upper())
+    coin2 = price(str(comms[3] + "USDT").upper())
+    conv = int(comms[1]) * float(coin1)  / float(coin2)
+
+
+    if len(message.command) == 4:
+        message.reply_text(f"{comms[1]} {comms[2].upper()} = {conv} {comms[3].upper()}")
+    else:
+        message.reply_text("You did something wrong")
+
+@bot.on_message(filters.private & filters.command(["instant", "i"]))
+def instant(bot, message):
+# Instantly sell all amounts of a coin
+    if not check_users(message):
+        return
+
+    comms = message.command
+    all_ = client.get_asset_balance(comms[2])['free']
+#    rm = 0.01 * (float(all_) / 100)
+    if not len(comms) ==3:
+        return
+
+    try:
+        if "sell" in comms[1]:
+            byeSell(str(comms[2]) + "USDT", format(float(all_), (".4f")), "sell")
+            message.reply_text("Sold")
+
+    except BinanceAPIException as e:
+        message.reply_text(e)
+
 
 bot.run()
